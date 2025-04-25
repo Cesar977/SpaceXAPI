@@ -1,0 +1,100 @@
+/* Estilo general del filtro */
+.filter {
+    padding: 20px;
+    background-color: #2d2d2d; /* Fondo oscuro */
+    border-radius: 8px;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: auto;
+    margin-top: 40px;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Contenedor de los botones de filtro */
+  .filter-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 48%; /* Ajustar ancho de los botones */
+  }
+  
+  .button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05); /* Efecto hover */
+  }
+  
+  .button.active {
+    background-color: #2ecc71; /* Verde cuando está activo */
+  }
+  
+  .button.inactive {
+    background-color: #e74c3c; /* Rojo cuando está inactivo */
+  }
+  
+  /* Estilo de los lanzamientos */
+  .item {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #333; /* Fondo más oscuro para los items */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .item strong {
+    font-size: 1.2rem;
+    color: #f8f8f8;
+    font-weight: bold;
+  }
+  
+  .item p {
+    font-size: 1rem;
+    color: #bbb;
+  }
+  
+  .item span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .item .status {
+    font-size: 1.4rem;
+  }
+  
+  .item .status.success {
+    color: #2ecc71; /* Verde para éxitos */
+  }
+  
+  .item .status.failure {
+    color: #e74c3c; /* Rojo para fallidos */
+  }
+  
+  /* Estilo para mensaje de no resultados */
+  p {
+    font-size: 1.1rem;
+    color: #bbb;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

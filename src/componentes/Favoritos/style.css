@@ -1,0 +1,9 @@
+.favorites {
+    padding: 20px;
+  }
+  
+  .item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  

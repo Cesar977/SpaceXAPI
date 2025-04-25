@@ -1,0 +1,53 @@
+/* Estilos para el perfil de cada lanzamiento */
+.profile {
+  padding: 20px;
+  background-color: #2d2d2d;
+  border-radius: 8px;
+  color: #fff;
+  max-width: 800px;
+  margin: 40px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.profile .details {
+  margin-top: 20px;
+}
+
+.profile .details strong {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.profile .details p {
+  font-size: 1rem;
+  color: #bbb;
+}
+
+.profile .status {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.profile .status.success {
+  color: #2ecc71; /* Verde para éxito */
+}
+
+.profile .status.failure {
+  color: #e74c3c; /* Rojo para fallido */
+}
