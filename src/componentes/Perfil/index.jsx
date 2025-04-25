@@ -1,47 +1,50 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './style.css';
 
 export default function Perfil() {
-  const { id } = useParams(); // Obtener el ID desde la URL
+  const { id } = useParams();
   const [launch, setLaunch] = useState(null);
+  const [rocket, setRocket] = useState(null); // Para almacenar los detalles del cohete
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`https://api.spacexdata.com/v4/launches/${id}`)
       .then((res) => res.json())
-      .then((data) => setLaunch(data))
-      .catch((error) => console.error('Error fetching launch details:', error));
+      .then((data) => {
+        setLaunch(data);
+        // Obtener los detalles del cohete utilizando el id del cohete
+        if (data.cores[0]?.rocket) {
+          fetch(`https://api.spacexdata.com/v4/rockets/${data.cores[0].rocket}`)
+            .then((res) => res.json())
+            .then((rocketData) => setRocket(rocketData));
+        }
+      });
   }, [id]);
 
-  if (!launch) {
-    return <div>Loading...</div>; // Mientras se cargan los detalles del lanzamiento
-  }
+  if (!launch) return <p>Cargando detalles...</p>;
+  if (!rocket) return <p>Cargando información de la nave...</p>;
+
+  const handleGoBack = () => {
+    navigate('/busqueda');
+  };
 
   return (
-    <div className="profile">
-      <h2>{launch.name}</h2>
-      
-      {/* Mostrar imagen del lanzamiento si está disponible */}
-      {launch.links && launch.links.flickr_images && launch.links.flickr_images[0] && (
-        <img src={launch.links.flickr_images[0]} alt={launch.name} />
-      )}
-      
-      <div className="details">
-        <strong>Fecha del lanzamiento:</strong>
-        <p>{new Date(launch.date_utc).toLocaleString()}</p>
+    <div className="perfil-container">
+      <div className="perfil-card">
+        <h2 className="perfil-title">{launch.name}</h2>
+        <div className="perfil-info">
+          <p><strong>Fecha:</strong> {new Date(launch.date_utc).toLocaleString()}</p>
+          <p><strong>Éxito:</strong> {launch.success ? 'Exitoso' : 'Fallido'}</p>
+          <p><strong>Detalles:</strong> {launch.details || 'Sin detalles disponibles.'}</p>
+          <h3>Cohete: {rocket.name}</h3>
+          <p><strong>Tipo de cohete:</strong> {rocket.type}</p>
+          <p><strong>Descripción del cohete:</strong> {rocket.description || 'Sin descripción del cohete.'}</p>
+        </div>
 
-        <strong>Descripción:</strong>
-        <p>{launch.details || 'No hay descripción disponible.'}</p>
-
-        <strong>Misión:</strong>
-        <p>{launch.mission_id ? launch.mission_id : 'Sin misión asociada'}</p>
-      </div>
-
-      <div className="status">
-        <strong>Estado del lanzamiento:</strong>
-        <p className={launch.success ? 'success' : 'failure'}>
-          {launch.success ? 'Éxito ✅' : 'Fallido ❌'}
-        </p>
+        <div className="perfil-actions">
+          <button className="btn-back" onClick={handleGoBack}>Volver a la Búsqueda</button>
+        </div>
       </div>
     </div>
   );
