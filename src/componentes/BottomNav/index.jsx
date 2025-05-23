@@ -9,6 +9,8 @@ export default function BottomNav() {
       <Link to="/filtro">Filtro</Link>
       <Link to="/busqueda">Buscar</Link>
       <Link to="/favoritos">Favoritos</Link>
+      <Link to="/multimedia">Multimedia</Link>
+      <Link to="/usuarios">Perfil</Link>
     </nav>
   );
 }
