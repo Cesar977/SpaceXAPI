@@ -1,19 +1,83 @@
-.home {
-    text-align: center;
-    padding: 40px;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .home h1 {
-    color: #333;
-    font-size: 2.5rem;
-  }
-  
-  .home p {
-    color: #555;
-    font-size: 1.2rem;
-  }
-  
+.home-container {
+  height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1590608897129-79da97b0b5a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  padding: 40px;
+  text-align: center;
+  color: #ffffff;
+  max-width: 700px;
+  margin: 0 20px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* texto legible sobre fondo */
+  animation: fadeIn 1s ease-in-out;
+}
+
+.spacex-logo {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.button-group button {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  min-width: 140px;
+}
+
+.button-group button:hover {
+  background-color: #0051a8;
+}
+
+.button-group .outline {
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  color: white;
+}
+
+.button-group .outline:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.button-group .secondary {
+  background-color: #333;
+}
+
+.button-group .secondary:hover {
+  background-color: #111;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

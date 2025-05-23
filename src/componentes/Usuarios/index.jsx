@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../supabase";
+import './style.css';
 
 export default function Usuario() {
   const [usuario, setUsuario] = useState(null);
@@ -111,27 +112,7 @@ export default function Usuario() {
 
       <hr />
 
-      <h3>Agregar imagen</h3>
-      <input
-        type="text"
-        placeholder="URL de la imagen"
-        value={nuevaUrl}
-        onChange={(e) => setNuevaUrl(e.target.value)}
-      />
-      <button onClick={handleAgregarUrl}>Agregar</button>
-
-      <h3>Imágenes guardadas</h3>
-      <ul>
-        {imagenes.map((img) => (
-          <li key={img.id}>
-            <img src={img.url} alt="Imagen" width="150" />
-            <br />
-            <button onClick={() => handleEliminarImagen(img.id)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
-            <hr />
-      <h2>Quiero cerrar sesión</h2>
+      <h3>¿Quiero cerrar sesión?</h3>
       <button onClick={handleLogout}>Cerrar sesión</button>
       {/* saltos de linea para que el menu no tape el boton */}
       <br /><br /><br /><br /><br />

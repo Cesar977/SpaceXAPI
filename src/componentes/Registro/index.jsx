@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../../supabase';
 import { useNavigate } from 'react-router-dom';
+import './style.css';
 
 function Registro() {
   const [formulario, setFormulario] = useState({

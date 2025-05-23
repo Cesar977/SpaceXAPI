@@ -14,7 +14,7 @@ import Login from './componentes/Login';
 import Registro from './componentes/Registro';
 import Multimedia from './componentes/Multimedia';
 import Administrador from './componentes/Administrador';
-
+import Agregar from './componentes/Agregar';
 // Componente para rutas protegidas
 function RutaPrivada({ usuario, children }) {
   return usuario ? children : <Navigate to="/login" />;
@@ -54,15 +54,17 @@ function AppContent() {
         <Route path="/bottomnav" element={<BottomNav />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/agregar" element={usuario ? <Agregar /> : <Navigate to="/login" />} />
+        <Route path="/perfil/:id" element={<Perfil />} />
 
         <Route path="/lista" element={<RutaPrivada usuario={usuario}><Lista /></RutaPrivada>} />
         <Route path="/filtro" element={<RutaPrivada usuario={usuario}><Filtro /></RutaPrivada>} />
         <Route path="/busqueda" element={<RutaPrivada usuario={usuario}><Busqueda /></RutaPrivada>} />
         <Route path="/favoritos" element={<RutaPrivada usuario={usuario}><Favoritos /></RutaPrivada>} />
-        <Route path="/perfil" element={<RutaPrivada usuario={usuario}><Perfil /></RutaPrivada>} />
         <Route path="/usuarios" element={<RutaPrivada usuario={usuario}><Usuarios /></RutaPrivada>} />
         <Route path="/multimedia" element={<RutaPrivada usuario={usuario}><Multimedia /></RutaPrivada>} />
         <Route path="/administrador" element={<RutaPrivada usuario={usuario}><Administrador /></RutaPrivada>} />
+    
       </Routes>
 
       {!ocultarBottomNav && <BottomNav />}

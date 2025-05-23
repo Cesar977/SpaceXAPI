@@ -11,6 +11,8 @@ export default function BottomNav() {
       <Link to="/favoritos">Favoritos</Link>
       <Link to="/multimedia">Multimedia</Link>
       <Link to="/usuarios">Perfil</Link>
+      <Link to="/agregar">+</Link>
+      
     </nav>
   );
 }
