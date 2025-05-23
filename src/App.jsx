@@ -12,8 +12,13 @@ import Perfil from './componentes/Perfil';
 import Usuarios from './componentes/Usuarios';
 import Login from './componentes/Login';
 import Registro from './componentes/Registro';
-import Multimedia from './componentes/Multimedia';  
+import Multimedia from './componentes/Multimedia';
 import Administrador from './componentes/Administrador';
+
+// Componente para rutas protegidas
+function RutaPrivada({ usuario, children }) {
+  return usuario ? children : <Navigate to="/login" />;
+}
 
 function AppContent() {
   const [usuario, setUsuario] = useState(null);
@@ -29,16 +34,18 @@ function AppContent() {
 
     verificarSesion();
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUsuario(session?.user || null);
     });
 
     return () => {
-      listener?.unsubscribe();
+      authListener?.subscription?.unsubscribe();
     };
   }, []);
 
   if (cargando) return <p>Cargando...</p>;
+
+  const ocultarBottomNav = ['/login', '/registro'].includes(location.pathname);
 
   return (
     <div style={{ paddingBottom: '60px' }}>
@@ -47,17 +54,18 @@ function AppContent() {
         <Route path="/bottomnav" element={<BottomNav />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
-        <Route path="/lista" element={usuario ? <Lista /> : <Navigate to="/login" />} />
-        <Route path="/filtro" element={usuario ? <Filtro /> : <Navigate to="/login" />} />
-        <Route path="/busqueda" element={usuario ? <Busqueda /> : <Navigate to="/login" />} />
-        <Route path="/favoritos" element={usuario ? <Favoritos /> : <Navigate to="/login" />} />
-        <Route path="/perfil/" element={usuario ? <Perfil /> : <Navigate to="/login" />} />
-        <Route path="/usuarios" element={usuario ? <Usuarios /> : <Navigate to="/login" />} />
-        <Route path="/multimedia" element={usuario ? <Multimedia /> : <Navigate to="/login" />} />  
-        <Route path="/administrador" element={usuario ? <Administrador /> : <Navigate to="/login" />} />
+
+        <Route path="/lista" element={<RutaPrivada usuario={usuario}><Lista /></RutaPrivada>} />
+        <Route path="/filtro" element={<RutaPrivada usuario={usuario}><Filtro /></RutaPrivada>} />
+        <Route path="/busqueda" element={<RutaPrivada usuario={usuario}><Busqueda /></RutaPrivada>} />
+        <Route path="/favoritos" element={<RutaPrivada usuario={usuario}><Favoritos /></RutaPrivada>} />
+        <Route path="/perfil" element={<RutaPrivada usuario={usuario}><Perfil /></RutaPrivada>} />
+        <Route path="/usuarios" element={<RutaPrivada usuario={usuario}><Usuarios /></RutaPrivada>} />
+        <Route path="/multimedia" element={<RutaPrivada usuario={usuario}><Multimedia /></RutaPrivada>} />
+        <Route path="/administrador" element={<RutaPrivada usuario={usuario}><Administrador /></RutaPrivada>} />
       </Routes>
 
-      {!['/login', '/registro'].includes(location.pathname) && <BottomNav />}
+      {!ocultarBottomNav && <BottomNav />}
     </div>
   );
 }
