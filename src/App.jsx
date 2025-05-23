@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { supabase } from './supabase';
 
 import BottomNav from './componentes/BottomNav';
@@ -15,9 +15,10 @@ import Registro from './componentes/Registro';
 import Multimedia from './componentes/Multimedia';  
 import Administrador from './componentes/Administrador';
 
-function App() {
+function AppContent() {
   const [usuario, setUsuario] = useState(null);
   const [cargando, setCargando] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     async function verificarSesion() {
@@ -40,25 +41,31 @@ function App() {
   if (cargando) return <p>Cargando...</p>;
 
   return (
+    <div style={{ paddingBottom: '60px' }}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/bottomnav" element={<BottomNav />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/lista" element={usuario ? <Lista /> : <Navigate to="/login" />} />
+        <Route path="/filtro" element={usuario ? <Filtro /> : <Navigate to="/login" />} />
+        <Route path="/busqueda" element={usuario ? <Busqueda /> : <Navigate to="/login" />} />
+        <Route path="/favoritos" element={usuario ? <Favoritos /> : <Navigate to="/login" />} />
+        <Route path="/perfil/" element={usuario ? <Perfil /> : <Navigate to="/login" />} />
+        <Route path="/usuarios" element={usuario ? <Usuarios /> : <Navigate to="/login" />} />
+        <Route path="/multimedia" element={usuario ? <Multimedia /> : <Navigate to="/login" />} />  
+        <Route path="/administrador" element={usuario ? <Administrador /> : <Navigate to="/login" />} />
+      </Routes>
+
+      {!['/login', '/registro'].includes(location.pathname) && <BottomNav />}
+    </div>
+  );
+}
+
+function App() {
+  return (
     <Router>
-      <div style={{ paddingBottom: '60px' }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registro" element={<Registro />} />
-
-          <Route path="/lista" element={usuario ? <Lista /> : <Navigate to="/login" />} />
-          <Route path="/filtro" element={usuario ? <Filtro /> : <Navigate to="/login" />} />
-          <Route path="/busqueda" element={usuario ? <Busqueda /> : <Navigate to="/login" />} />
-          <Route path="/favoritos" element={usuario ? <Favoritos /> : <Navigate to="/login" />} />
-          <Route path="/perfil/:id" element={usuario ? <Perfil /> : <Navigate to="/login" />} />
-          <Route path="/usuarios" element={usuario ? <Usuarios /> : <Navigate to="/login" />} />
-          <Route path="/multimedia" element={usuario ? <Multimedia /> : <Navigate to="/login" />} />  
-          <Route path="/administrador" element={usuario ? <Administrador /> : <Navigate to="/login" />} />
-        </Routes>
-
-        <BottomNav />
-      </div>
+      <AppContent />
     </Router>
   );
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../supabase';
 
-
 function Multimedia() {
   const [multimedia, setMultimedia] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +37,7 @@ function Multimedia() {
 
   if (loading) return <p>Cargando multimedia...</p>;
   if (error) return <p>{error}</p>;
-  if (multimedia.length === 0) return <p>No tienes multimedia guardada.</p>;
+  if (!multimedia || multimedia.length === 0) return <p>No tienes multimedia guardada.</p>;
 
   return (
     <div>
@@ -46,13 +45,15 @@ function Multimedia() {
       <ul>
         {multimedia.map(({ id, tipo, url, descripcion }) => (
           <li key={id}>
-            <p>{descripcion}</p>
-            {tipo === 'imagen' ? (
-              <img src={url} alt={descripcion} style={{ maxWidth: '300px' }} />
-            ) : (
+            <p>{descripcion || 'Sin descripción'}</p>
+            {tipo === 'imagen' && url ? (
+              <img src={url} alt={descripcion || 'Imagen'} style={{ maxWidth: '300px' }} />
+            ) : url ? (
               <a href={url} target="_blank" rel="noopener noreferrer">
                 {url}
               </a>
+            ) : (
+              <span>Sin contenido</span>
             )}
           </li>
         ))}

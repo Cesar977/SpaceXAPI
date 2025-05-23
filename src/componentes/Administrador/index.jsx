@@ -20,7 +20,7 @@ function Administrador() {
             }
 
             const { data, error } = await supabase
-                .from("usuario")
+                .from("usuario") // Cambia a "usuarios" si tu tabla se llama así
                 .select("roll")
                 .eq("id", user.id)
                 .single();
@@ -43,7 +43,7 @@ function Administrador() {
         const obtenerDatos = async () => {
             try {
                 const { data: usuariosData, error: usuariosError } = await supabase
-                    .from("usuario")
+                    .from("usuario") // Cambia a "usuarios" si tu tabla se llama así
                     .select("id, nombre, correo, roll, telefono");
 
                 const { data: fotosData, error: fotosError } = await supabase
@@ -74,7 +74,7 @@ function Administrador() {
     const editarUsuario = async (id, nuevoNombre, nuevoCorreo, nuevoTelefono) => {
         try {
             const { error } = await supabase
-                .from("usuario")
+                .from("usuario") // Cambia a "usuarios" si tu tabla se llama así
                 .update({
                     nombre: nuevoNombre,
                     correo: nuevoCorreo,
@@ -112,7 +112,7 @@ function Administrador() {
                 setUsuarios((prevUsuarios) =>
                     prevUsuarios.map((usuario) => ({
                         ...usuario,
-                        fotos: usuario.fotos.filter((foto) => foto.id !== imagenId),
+                        fotos: usuario.fotos ? usuario.fotos.filter((foto) => foto.id !== imagenId) : [],
                     }))
                 );
             }
@@ -158,7 +158,13 @@ function Administrador() {
                                     onChange={(e) => handleChange(e, usuario.id, "nombre")}
                                 />
                             </td>
-                            <td>{usuario.correo}</td>
+                            <td>
+                                <input
+                                    type="email"
+                                    value={usuario.correo}
+                                    onChange={(e) => handleChange(e, usuario.id, "correo")}
+                                />
+                            </td>
                             <td>
                                 <input
                                     type="tel"
@@ -167,16 +173,20 @@ function Administrador() {
                                 />
                             </td>
                             <td>
-                                {usuario.fotos.map((foto) => (
-                                    <div key={foto.id} style={{ display: "inline-block", marginRight: "10px" }}>
-                                        <img
-                                            src={foto.url}
-                                            alt={`Foto de ${usuario.nombre}`}
-                                            style={{ width: "100px", height: "auto", marginBottom: "5px" }}
-                                        />
-                                        <button onClick={() => eliminarImagen(foto.id)}>Eliminar</button>
-                                    </div>
-                                ))}
+                                {usuario.fotos && usuario.fotos.length > 0 ? (
+                                    usuario.fotos.map((foto) => (
+                                        <div key={foto.id} style={{ display: "inline-block", marginRight: "10px" }}>
+                                            <img
+                                                src={foto.url}
+                                                alt={`Foto de ${usuario.nombre}`}
+                                                style={{ width: "100px", height: "auto", marginBottom: "5px" }}
+                                            />
+                                            <button onClick={() => eliminarImagen(foto.id)}>Eliminar</button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <span>Sin fotos</span>
+                                )}
                             </td>
                             <td>
                                 <button onClick={() => editarUsuario(usuario.id, usuario.nombre, usuario.correo, usuario.telefono)}>

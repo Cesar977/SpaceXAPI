@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { supabase } from '../../supabase';
 import { useNavigate } from 'react-router-dom';
 
-
 function Registro() {
   const [formulario, setFormulario] = useState({
     nombre: '',
@@ -23,35 +22,45 @@ function Registro() {
     e.preventDefault();
     setError(null);
 
-    // 1. Crear usuario en Auth
-    const { data, error: errorAuth } = await supabase.auth.signUp({
-      email: formulario.correo,
-      password: formulario.password,
-    });
+    try {
+      // 1. Crear usuario en Auth
+      const { data, error: errorAuth } = await supabase.auth.signUp({
+        email: formulario.correo,
+        password: formulario.password,
+      });
 
-    if (errorAuth) {
-      setError(errorAuth.message);
-      return;
-    }
+      if (errorAuth) {
+        setError(errorAuth.message);
+        return;
+      }
 
-    const uid = data.user.id;
+      if (!data.user) {
+        setError("No se pudo crear el usuario.");
+        return;
+      }
 
-    // 2. Insertar en tabla "usuarios"
-    const { error: errorInsert } = await supabase.from("usuario").insert([
-      {
-        id: uid,
-        nombre: formulario.nombre,
-        correo: formulario.correo,
-        fecha_nacimiento: formulario.fechaNacimiento,
-        telefono: formulario.telefono,
-        roll: "usuario",
-      },
-    ]);
+      const uid = data.user.id;
 
-    if (errorInsert) {
-      setError("Usuario creado pero error en tabla usuarios: " + errorInsert.message);
-    } else {
-      navigate("/login");
+      // 2. Insertar en tabla "usuarios"
+      const { error: errorInsert } = await supabase.from("usuarios").insert([
+        {
+          id: uid,
+          nombre: formulario.nombre,
+          correo: formulario.correo,
+          fecha_nacimiento: formulario.fechaNacimiento,
+          telefono: formulario.telefono,
+          roll: "usuario",
+        },
+      ]);
+
+      if (errorInsert) {
+        setError("Usuario creado pero error en tabla usuarios: " + errorInsert.message);
+      } else {
+        navigate("/login");
+      }
+    } catch (e) {
+      setError("Error inesperado: " + e.message);
+      console.error(e);
     }
   };
 
