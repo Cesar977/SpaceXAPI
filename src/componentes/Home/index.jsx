@@ -32,7 +32,7 @@ export default function Home() {
         <div className="button-group">
           <button onClick={() => navigate('/multimedia')}>Galería</button>
           <button onClick={() => navigate('/agregar')} className="outline">Agregar imagen</button>
-          <button onClick={() => navigate('/login')} className="secondary">Iniciar sesión</button>
+          <button onClick={() => navigate('/busqueda')} className="secondary">Buscar ahora</button>
         </div>
       </div>
 
